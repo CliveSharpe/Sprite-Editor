@@ -903,7 +903,7 @@ body {
 	.editor-header { padding: 14px; }
 	.brand-mark { display: none; }
 	.workspace-panel { padding: 10px; overflow-x: auto; }
-	.editor-contact { position: fixed; z-index: 4; right: 10px; bottom: 10px; }
+	.editor-contact { display: none; }
 	.pixel-stage { transform-origin: top left; }
 	.sidebar { grid-template-columns: 1fr; }
 }
@@ -35249,13 +35249,7 @@ function loadFile(file)
 	var contact = document.createElement("div");
 	contact.className = "editor-contact";
 	contact.textContent = "2016 - 2026 C.Sharpe mrpartz@gmail.com";
-	var workspacePanel = app.querySelector(".workspace-panel");
-	function placeEditorContact() {
-		var parent = window.matchMedia("(max-width: 760px)").matches ? document.body : workspacePanel;
-		if (contact.parentNode != parent) parent.appendChild(contact);
-	}
-	placeEditorContact();
-	window.addEventListener("resize", placeEditorContact);
+	app.querySelector(".workspace-panel").appendChild(contact);
 	renderLogo(document.getElementById("se-logo"), false, false, true);
 	var gradientFillGuide = document.createElement("div");
 	gradientFillGuide.id = "gradient-fill-guide";
