@@ -731,7 +731,6 @@ body {
 .editor-layout { display: block; }
 .workspace-panel { padding: 16px; border-radius: 18px; min-width: 0; overflow-x: auto; }
 .workspace-panel { position: relative; }
-.editor-contact { position: absolute; right: 14px; bottom: 10px; font: 700 .58rem/1 Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .04em; background: linear-gradient(180deg, #f4f7ff 0%, #8290bc 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .workspace-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 12px; }
 .section-title, .panel h2 { margin: 0; font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
 .workspace-content { display: grid; grid-template-columns: 1196px 330px; gap: 16px; align-items: start; }
@@ -904,7 +903,6 @@ body {
 	.editor-header { padding: 14px; }
 	.brand-mark { display: none; }
 	.workspace-panel { padding: 10px; overflow-x: auto; }
-	.editor-contact { display: none; }
 	.pixel-stage { transform-origin: top left; }
 	.sidebar { grid-template-columns: 1fr; }
 }
@@ -35247,10 +35245,6 @@ function loadFile(file)
 		'<div class="editor-layout"><section class="workspace-panel panel"><div class="workspace-top"><h2 class="section-title">Workspace</h2><div class="sprite-navigation"></div></div><div class="workspace-content"><div class="workspace-main"><div class="canvas-and-controls"><div class="pixel-stage"><span class="palette-frame full-palette-frame"></span>				<span class="palette-label">Sprite Palette</span><span class="palette-frame active-palette-frame"></span><div class="palette-actions sprite-palette-actions"><button id="palette-to-gradient" type="button" title="Copy the Sprite Palette colours to the Gradient Palette">To Gradient</button></div><label class="gradient-palette-label">Gradients <select id="gradient-choice"><option value="gradient1">Gradient 1</option><option value="gradient2">Gradient 2</option><option value="gradient3">Gradient 3</option><option value="gradient4">Gradient 4</option><option value="gradient5">Gradient 5</option><option value="gradient6">Gradient 6</option><option value="gradient7">Gradient 7</option><option value="gradient8">Gradient 8</option></select></label><span class="palette-frame gradient-palette-frame"></span><div id="gradient-palette"></div><div class="palette-actions gradient-palette-actions"><button id="gradient-to-palette" type="button" title="Copy the gradient colours to the Sprite Palette">To Palette</button><button id="reverse-gradient" type="button" title="Reverse the enabled gradient colours">Reverse</button></div>		<span class="canvas-frame"></span><span class="canvas-footer-divider"></span><div class="canvas-controls"><section class="canvas-side-section"><h2>Sprite size</h2><div class="button-grid compact size-tools"></div></section><section class="canvas-side-section"><h2>Transform</h2><div class="transform-controls"><div class="transform-row rotate-controls"></div><div class="transform-row scale-controls"></div><div class="transform-row scale-x-controls"></div><div class="transform-row scale-y-controls"></div></div><div class="button-grid compact transform-tools"></div></section><section class="canvas-side-section"><h2>Tools</h2><div class="button-grid tool-tools"></div></section></div></div></div><div class="status-bar"></div></div>' +
 		'<aside class="sidebar"><section class="project-panel panel"><h2>Project</h2><div class="button-grid project-actions"></div></section><section class="animation-panel panel"><h2>Animation</h2><div class="preview-grid"></div><div class="utility-row animation-tools"></div><div class="button-grid compact animation-style" style="margin-top:7px"></div></section><section class="export-panel panel"><h2>Export</h2><div class="button-grid compact export-tools"></div></section></aside></div></section></div><div class="dialog-source"></div><div class="export-dialog" hidden><div class="export-dialog-card" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><header class="export-dialog-header"><div class="export-dialog-title" id="dialog-title"></div></header><div class="export-dialog-body"></div><footer class="export-dialog-footer"><label class="dialog-image-type" hidden>Image type<select><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option><option value="image/bmp">BMP</option></select></label><button type="button" class="dialog-save">Save file</button><button type="button" class="dialog-close">Close</button></footer></div></div>';
 	document.body.appendChild(app);
-	var contact = document.createElement("div");
-	contact.className = "editor-contact";
-	contact.textContent = "2016 - 2026 C.Sharpe mrpartz@gmail.com";
-	app.querySelector(".workspace-panel").appendChild(contact);
 	renderLogo(document.getElementById("se-logo"), false, false, true);
 	var gradientFillGuide = document.createElement("div");
 	gradientFillGuide.id = "gradient-fill-guide";
