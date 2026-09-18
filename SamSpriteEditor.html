@@ -881,6 +881,7 @@ body {
 .utility-row button { flex: 1; }
 #modern-app .animation-style button { font-family: "Arial Black", Arial, sans-serif !important; font-size: 1.1rem !important; }
 #modern-app .transform-tools button { font-family: "Arial Black", Arial, sans-serif !important; font-size: 1.1rem !important; }
+.direction-icon { display: block; width: 1.15em; height: 1.15em; margin: auto; fill: currentColor; }
 #modern-app #FILL, #modern-app #CIRCLEMODE, #modern-app #SQUAREMODE, #modern-app #SPRAYMODE { position: relative !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; padding-right: 20px !important; }
 #FILL::after, #CIRCLEMODE::after, #SQUAREMODE::after, #SPRAYMODE::after { content: "▾"; position: absolute; right: 5px; bottom: 3px; color: var(--accent-bright); font-size: .7rem; }
 .shape-style-menu { position: fixed; z-index: 10; display: grid; gap: 4px; min-width: 92px; padding: 5px; border: 1px solid #4b5e91; border-radius: 7px; background: #18213a; box-shadow: 0 8px 24px rgba(0, 0, 0, .4); }
@@ -35188,12 +35189,12 @@ function loadFile(file)
 <button id="SCALEDOWNX" type="button" onclick="setScaleX(-10)">-</button>
 <button id="SCALEUPY" type="button" onclick="setScaleY(10)">+</button>
 <button id="SCALEDOWNY" type="button" onclick="setScaleY(-10)">-</button>
-<button id="SHIFTUP" type="button" onclick="shiftUp()" title="Shift up" aria-label="Shift up">&#11014;</button>
-<button id="SHIFTDOWN" type="button" onclick="shiftDown()" title="Shift down" aria-label="Shift down">&#11015;</button>
-<button id="SHIFTLEFT" type="button" onclick="shiftLeft()" title="Shift left" aria-label="Shift left">&#11013;</button>
-<button id="SHIFTRIGHT" type="button" onclick="shiftRight()" title="Shift right" aria-label="Shift right">&#10145;</button>
-<button id="FLIPX" type="button" onclick="flipX()" title="Flip horizontally" aria-label="Flip horizontally">&#11020;</button>
-<button id="FLIPY" type="button" onclick="flipY()" title="Flip vertically" aria-label="Flip vertically">&#11021;</button>
+<button id="SHIFTUP" type="button" onclick="shiftUp()" title="Shift up" aria-label="Shift up"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 21V9H6l6-6 6 6h-4v12z"/></svg></button>
+<button id="SHIFTDOWN" type="button" onclick="shiftDown()" title="Shift down" aria-label="Shift down"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3v12H6l6 6 6-6h-4V3z"/></svg></button>
+<button id="SHIFTLEFT" type="button" onclick="shiftLeft()" title="Shift left" aria-label="Shift left"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10H9V6l-6 6 6 6v-4h12z"/></svg></button>
+<button id="SHIFTRIGHT" type="button" onclick="shiftRight()" title="Shift right" aria-label="Shift right"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h12V6l6 6-6 6v-4H3z"/></svg></button>
+<button id="FLIPX" type="button" onclick="flipX()" title="Flip horizontally" aria-label="Flip horizontally"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 2 12l6 7v-4h8v4l6-7-6-7v4H8z"/></svg></button>
+<button id="FLIPY" type="button" onclick="flipY()" title="Flip vertically" aria-label="Flip vertically"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 7-6 7 6h-4v8h4l-7 6-7-6h4V8z"/></svg></button>
 <button id="COPY" type="button" onclick="copy()">COPY</button>
 <button id="PASTE" type="button" onclick="paste()">PASTE</button>
 <button id="COPYPAL" type="button" onclick="copyPal()">COPY PAL</button>
@@ -35217,9 +35218,9 @@ function loadFile(file)
 <button id="ANIMPLAY" type="button" onclick="animToggle()" title="Play or stop animation" aria-label="Play or stop animation">&#9654; / &#9632;</button>
 <button id="SPDMINUS" type="button" onclick="changeSpd(1)" title="Slow animation" aria-label="Slow animation">&#9664;&#9664;</button>
 <button id="SPDPLUS" type="button" onclick="changeSpd(-1)" title="Speed up animation" aria-label="Speed up animation">&#9654;&#9654;</button>
-<button id="REVERSE" type="button" onclick="animStyle('REVERSE')" title="Play in reverse" aria-label="Play in reverse">&#11013;</button>
-<button id="FORWARD" type="button" onclick="animStyle('FORWARD')" title="Play forward" aria-label="Play forward">&#10145;</button>
-<button id="PINGPONG" type="button" onclick="animStyle('PINGPONG')" title="Ping-pong playback" aria-label="Ping-pong playback">&#11020;</button>
+<button id="REVERSE" type="button" onclick="animStyle('REVERSE')" title="Play in reverse" aria-label="Play in reverse"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10H9V6l-6 6 6 6v-4h12z"/></svg></button>
+<button id="FORWARD" type="button" onclick="animStyle('FORWARD')" title="Play forward" aria-label="Play forward"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h12V6l6 6-6 6v-4H3z"/></svg></button>
+<button id="PINGPONG" type="button" onclick="animStyle('PINGPONG')" title="Ping-pong playback" aria-label="Ping-pong playback"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 2 12l6 7v-4h8v4l6-7-6-7v4H8z"/></svg></button>
 <button id="JAVA8" type="button" onclick="generateJava8()">JAVA 8</button>
 <button id="JAVA16" type="button" onclick="generateJava16()">JAVA 16</button>
 <button id="JAVA24" type="button" onclick="generateJava24()">JAVA 24</button>
