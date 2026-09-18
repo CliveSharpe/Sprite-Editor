@@ -35249,7 +35249,13 @@ function loadFile(file)
 	var contact = document.createElement("div");
 	contact.className = "editor-contact";
 	contact.textContent = "2016 - 2026 C.Sharpe mrpartz@gmail.com";
-	app.querySelector(".workspace-panel").appendChild(contact);
+	var workspacePanel = app.querySelector(".workspace-panel");
+	function placeEditorContact() {
+		var parent = window.matchMedia("(max-width: 760px)").matches ? document.body : workspacePanel;
+		if (contact.parentNode != parent) parent.appendChild(contact);
+	}
+	placeEditorContact();
+	window.addEventListener("resize", placeEditorContact);
 	renderLogo(document.getElementById("se-logo"), false, false, true);
 	var gradientFillGuide = document.createElement("div");
 	gradientFillGuide.id = "gradient-fill-guide";
