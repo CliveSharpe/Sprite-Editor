@@ -809,6 +809,18 @@ body {
 .export-dialog-body { min-height: 0; padding: 18px; overflow: auto; }
 .export-dialog-body #DATA { width: 100% !important; height: auto !important; min-height: 260px; margin: 0; }
 .sprite-sheet-canvas { display: block; max-width: 100%; height: auto; background: #090e1b; cursor: pointer; image-rendering: pixelated; }
+.sprite-sheet-import { position: relative; min-height: 96px; margin: 0 0 14px; padding: 12px; overflow: hidden; border: 1px dashed #4b5e91; border-radius: 8px; color: var(--muted); text-align: center; }
+.sprite-sheet-import.is-dragging { border-color: var(--accent-bright); color: var(--text); background: rgba(124, 92, 255, .14); }
+.sprite-sheet-import-prompt { position: absolute; inset: 0 12px; display: grid; place-items: center; color: transparent; background: linear-gradient(180deg, #ffffff 0%, #d7d9ff 45%, #9183f8 100%); -webkit-background-clip: text; background-clip: text; font: 700 clamp(1.65rem, 4vw, 1.85rem) ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .03em; text-shadow: 0 1px 0 #ffffff44, 0 2px 3px #050711aa; }
+.sprite-sheet-import-prompt.is-invalid { color: #ff496b; background: none; -webkit-text-fill-color: #ff496b; animation: invalid-file-format .65s steps(2, start) infinite; }
+.sprite-sheet-import.is-importing .sprite-sheet-import-prompt { display: none; }
+.sprite-sheet-import-status { position: absolute; right: 12px; bottom: 30px; left: 12px; min-height: 0; color: var(--success); font-size: .78rem; }
+.sprite-sheet-import-status.is-error { color: #ff9baf; }
+.sprite-sheet-import-progress { position: absolute; top: 50%; left: 16.667%; width: 66.666%; height: 32px; margin-top: -16px; overflow: hidden; border: 1px solid #ffffff; border-radius: 0; background: #090e1b; }
+.sprite-sheet-import-progress[hidden] { display: none; }
+.sprite-sheet-import-progress-fill { position: absolute; inset: 2px; width: calc(100% - 4px); background: #7180aa; transform: scaleX(0); transform-origin: left center; }
+.sprite-sheet-import-progress-text { position: relative; z-index: 1; display: grid; height: 100%; place-items: center; color: #ffffff; font: 900 .78rem/1 "Arial Black", Impact, ui-monospace, SFMono-Regular, Consolas, monospace; text-shadow: 0 1px 2px #050711; white-space: nowrap; }
+@keyframes invalid-file-format { 50% { opacity: .25; } }
 .export-dialog-body .help-guide { color: var(--text); font: 500 .95rem/1.6 Inter, ui-sans-serif, system-ui, sans-serif; white-space: normal; }
 .help-guide .editor-title { margin: 0 0 18px; font-size: clamp(1.15rem, 4vw, 2rem); }
 .help-section { margin: 12px 0; padding: 15px; border-radius: 10px; }
@@ -35483,7 +35495,7 @@ function loadFile(file)
 		'<div class="help-guide">' +
 		'<section class="help-section about"><h3>About</h3><p>This version of the SAM Coupe Sprite Editor completes a number of outstanding backlog items, including:</p><ul><li>Sprite Sheet selection.</li><li>Continuous drawing in Point mode.</li><li>Gradient creation, selection, and assignment.</li><li>Linear and radial Gradient Fill modes.</li><li>Filled and outline Circle and Square drawing modes.</li></ul><p>It also provides a full AI-assisted reface of the original UI.</p><p>Core baseline functionality and code remains intact.</p></section>' +
 		'<section class="help-section acknowledgements"><h3>Acknowledgements</h3><p>Thanks to the original C64 artists for 24*21 sprite images, and Chris&nbsp;<svg class="battlezone-tank" role="img" aria-label="green retro tank" viewBox="0 0 48 28" shape-rendering="crispEdges"><path fill="#173a2c" d="M2 18h38l5 4v5H2z"/><path fill="#61ed92" d="M5 19h33l3 3v2H5z"/><path fill="#173a2c" d="M8 21h7v3H8zm10 0h7v3h-7zm10 0h7v3h-7z"/><path fill="#3aa766" d="M8 14h28l5 5H5z"/><path fill="#61ed92" d="M12 12h21l3 5H9z"/><path fill="#173a2c" d="M19 6h11l5 6H15z"/><path fill="#61ed92" d="M20 7h9l3 4H18z"/><path fill="#b4ffd0" d="M22 8h5v2h-5z"/><path fill="#61ed92" d="M29 8h17v3H29z"/><path fill="#b4ffd0" d="M42 8h4v3h-4z"/></svg>&nbsp;Pile for telling me the world didn\'t need another Sprite Editor back in 2016.</p></section>' +
-		'<section class="help-section overview"><h3>Getting started</h3><ul><li>Select 8x8, 16x16, 24x21, or 32x32 to choose a gallery containing 256 independently editable sprites.</li><li>Use the previous and next buttons below the canvas to move through the active gallery.</li><li>Read the centred sprite number below the canvas to identify the sprite currently being edited.</li><li>Open Sprite Sheet to see every sprite in the active size and click a tile to load it.</li><li>Use Project Save to store all gallery pixels, per-sprite palettes, Gradient Palette settings, and gradient fill counts in one project file.</li><li>Use Project Load to restore a previously saved project file.</li></ul></section>' +
+		'<section class="help-section overview"><h3>Getting started</h3><ul><li>Select 8x8, 16x16, 24x21, or 32x32 to choose a gallery containing 256 independently editable sprites.</li><li>Use the previous and next buttons below the canvas to move through the active gallery.</li><li>Read the centred sprite number below the canvas to identify the sprite currently being edited.</li><li>Open Sprite Sheet to see every sprite in the active size and click a tile to load it.</li><li>Drop a PNG or BMP image into the Sprite Sheet dialog to import complete tiles in row order, up to 256 sprites.</li><li>Imported image colours are matched to the nearest Full Palette colour and remapped to each sprite&apos;s available sixteen colour slots.</li><li>Use Project Save to store all gallery pixels, per-sprite palettes, Gradient Palette settings, and gradient fill counts in one project file.</li><li>Use Project Load to restore a previously saved project file.</li></ul></section>' +
 		'<section class="help-section editing"><h3>Palettes and drawing</h3><ul><li>Click a Sprite Palette swatch to select the indexed colour used by solid drawing tools.</li><li>Click a Full Palette swatch to replace the Sprite Palette or Gradient Palette swatch selected most recently.</li><li>Click a Gradient Palette swatch before choosing a Full Palette colour to edit that gradient slot.</li><li>Double-click a Gradient Palette swatch to set its final enabled colour and hatch all later slots.</li><li>Select Gradient 1 through Gradient 8 to load an editable dark-to-light-to-dark colour ramp.</li><li>Use To Palette to copy the enabled gradient colours into the leading Sprite Palette entries for the current sprite.</li><li>Use To Gradient to copy all sixteen current Sprite Palette colours into the Gradient Palette.</li><li>Use Reverse to reverse the enabled Gradient Palette colours.</li><li>Click canvas cells in Point mode to draw individual pixels with the selected Sprite Palette colour.</li><li>Hold the left mouse button and move over canvas cells in Point mode to draw continuously.</li><li>Use Grid to show or hide the pixel-cell borders.</li></ul></section>' +
 		'<section class="help-section transforming"><h3>Tools and transforms</h3><ul><li>Click Line once to anchor its first endpoint and click again to commit the previewed line.</li><li>Click Circle or Square once to anchor its centre and click again to commit the previewed shape.</li><li>Click the lower-right arrow on Circle or Square to choose Filled or Outline rendering.</li><li>Click the lower-right arrow on Spray to choose Solid or Gradient spraying.</li><li>Hold the left mouse button and move over canvas cells in Spray mode to spray continuously.</li><li>Gradient Spray uses the leading palette colours established by To Palette and increases colour outward from the spray centre.</li><li>Click the lower-right arrow on Fill to choose Solid, Linear, or Radial filling.</li><li>Solid Fill changes one connected region to the selected Sprite Palette colour.</li><li>Linear and Radial Fill use the first click to select and anchor a connected region.</li><li>Move the pointer to preview the linear angle or radial radius and click again to commit the gradient fill.</li><li>Use Undo to restore the most recent image change.</li><li>Use Clear to set the current sprite to colour index zero and use Wash Image to fill every pixel with the selected colour.</li><li>Use the transform arrows to shift pixels by one position or flip the sprite horizontally or vertically.</li><li>Set Rotate, Scale, X Scale, or Y Scale with their adjacent controls before applying the matching transform.</li></ul></section>' +
 		'<section class="help-section animation"><h3>Animation</h3><ul><li>Click the first animation preview to select the sequence start sprite.</li><li>Click the second animation preview to select the sequence end sprite.</li><li>Use the third preview to view the currently selected animation sequence.</li><li>Use the play and stop control to start or stop animation playback.</li><li>Use the paired triangle controls to change animation speed.</li><li>Use the direction buttons to choose forward, reverse, or ping-pong playback.</li><li>Animation settings are stored independently for each sprite size.</li></ul></section>' +
@@ -35714,14 +35726,40 @@ function loadFile(file)
 		}
 	}
 
-	function showSpriteSheet() {
-		var settings = spriteSheetSettings();
+	function closestFullPaletteIndex(red, green, blue) {
+		var closestIndex = 0;
+		var closestDistance = Number.MAX_VALUE;
+		for (var paletteIndex = 0; paletteIndex < CLUT.length; paletteIndex++) {
+			var components = CLUT[paletteIndex].match(/\d+/g);
+			var distance = Math.pow(red - Number(components[0]), 2) + Math.pow(green - Number(components[1]), 2) + Math.pow(blue - Number(components[2]), 2);
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestIndex = paletteIndex;
+			}
+		}
+		return closestIndex;
+	}
+
+	function closestSpritePaletteIndex(fullPaletteIndex, spritePalette) {
+		var source = CLUT[fullPaletteIndex].match(/\d+/g);
+		var closestIndex = 0;
+		var closestDistance = Number.MAX_VALUE;
+		for (var paletteIndex = 0; paletteIndex < spritePalette.length; paletteIndex++) {
+			var target = CLUT[spritePalette[paletteIndex]].match(/\d+/g);
+			var distance = Math.pow(Number(source[0]) - Number(target[0]), 2) + Math.pow(Number(source[1]) - Number(target[1]), 2) + Math.pow(Number(source[2]) - Number(target[2]), 2);
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestIndex = paletteIndex;
+			}
+		}
+		return closestIndex;
+	}
+
+	function drawSpriteSheet(sheet, settings) {
 		var scale = 2;
 		var rows = 256 / settings.columns;
-		source.innerHTML = '<canvas class="sprite-sheet-canvas" width="' + (settings.columns * settings.width * scale) + '" height="' + (rows * settings.height * scale) + '"></canvas>';
-		openDialog("Sprite sheet", false);
-
-		var sheet = source.querySelector("canvas");
+		sheet.width = settings.columns * settings.width * scale;
+		sheet.height = rows * settings.height * scale;
 		var context = sheet.getContext("2d");
 		context.imageSmoothingEnabled = false;
 		for (var sprite = 0; sprite < 256; sprite++) {
@@ -35736,13 +35774,168 @@ function loadFile(file)
 				}
 			}
 		}
+	}
+
+	function importSpriteSheet(file, settings, sheet, prompt, status, progress, progressFill, progressText) {
+		if (prompt.isImporting) return;
+		if (!file || !(/\.(png|bmp)$/i.test(file.name) || file.type == "image/png" || file.type == "image/bmp")) {
+			window.clearTimeout(prompt.invalidTimeout);
+			prompt.textContent = "INVALID FILE FORMAT!";
+			prompt.classList.add("is-invalid");
+			status.textContent = "";
+			status.classList.remove("is-error");
+			prompt.invalidTimeout = window.setTimeout(function() {
+				prompt.textContent = "DRAG AND DROP EXTERNAL SPRITE SHEET HERE";
+				prompt.classList.remove("is-invalid");
+			}, 5000);
+			return;
+		}
+
+		window.clearTimeout(prompt.invalidTimeout);
+		prompt.textContent = "DRAG AND DROP EXTERNAL SPRITE SHEET HERE";
+		prompt.classList.remove("is-invalid");
+		prompt.isImporting = true;
+		var imageUrl = URL.createObjectURL(file);
+		var image = new Image();
+		image.onload = function() {
+			var columns = Math.floor(image.width / settings.width);
+			var rows = Math.floor(image.height / settings.height);
+			var spriteCount = Math.min(256, columns * rows);
+			if (!spriteCount) {
+				status.textContent = "The image is smaller than one " + settings.width + "x" + settings.height + " sprite.";
+				status.classList.add("is-error");
+				prompt.isImporting = false;
+				URL.revokeObjectURL(imageUrl);
+				return;
+			}
+
+			var importCanvas = document.createElement("canvas");
+			importCanvas.width = image.width;
+			importCanvas.height = image.height;
+			var importContext = importCanvas.getContext("2d", { willReadFrequently: true });
+			importContext.drawImage(image, 0, 0);
+			var pixels = importContext.getImageData(0, 0, image.width, image.height).data;
+			var spritePixels = settings.width * settings.height;
+			var importedSprites = 0;
+			progress.hidden = false;
+			prompt.parentNode.classList.add("is-importing");
+			progressFill.style.transform = "scaleX(0)";
+			progressText.textContent = "IMPORTED 0 OF " + spriteCount + " SPRITES";
+			status.textContent = "";
+			status.classList.remove("is-error");
+
+			function importSprite(sprite) {
+				var spriteColumn = sprite % columns;
+				var spriteRow = Math.floor(sprite / columns);
+				var fullPalettePixels = [];
+				var counts = {};
+				var hasTransparentPixels = false;
+
+				for (var y = 0; y < settings.height; y++) {
+					for (var x = 0; x < settings.width; x++) {
+						var sourcePixel = (((spriteRow * settings.height + y) * image.width) + (spriteColumn * settings.width + x)) * 4;
+						var pixelIndex = (y * settings.width) + x;
+						if (pixels[sourcePixel + 3] < 128) {
+							fullPalettePixels[pixelIndex] = 0;
+							hasTransparentPixels = true;
+							continue;
+						}
+						var fullPaletteIndex = closestFullPaletteIndex(pixels[sourcePixel], pixels[sourcePixel + 1], pixels[sourcePixel + 2]);
+						fullPalettePixels[pixelIndex] = fullPaletteIndex;
+						counts[fullPaletteIndex] = (counts[fullPaletteIndex] || 0) + 1;
+					}
+				}
+
+				var spritePalette = hasTransparentPixels ? [0] : [];
+				Object.keys(counts).sort(function(first, second) {
+					return counts[second] - counts[first];
+				}).forEach(function(index) {
+					index = Number(index);
+					if (spritePalette.length < 16 && spritePalette.indexOf(index) == -1) spritePalette.push(index);
+				});
+				if (!spritePalette.length) spritePalette.push(0);
+				while (spritePalette.length < 16) spritePalette.push(spritePalette[0]);
+
+				for (var paletteSlot = 0; paletteSlot < 16; paletteSlot++) {
+					settings.palette[(sprite * 16) + paletteSlot] = spritePalette[paletteSlot];
+				}
+				for (var pixel = 0; pixel < spritePixels; pixel++) {
+					settings.gallery[(sprite * spritePixels) + pixel] = closestSpritePaletteIndex(fullPalettePixels[pixel], spritePalette);
+				}
+				delete gradientFillCounts[size + ":" + sprite];
+			}
+
+			function importNextBatch() {
+				var batchEnd = Math.min(spriteCount, importedSprites + 4);
+				while (importedSprites < batchEnd) {
+					importSprite(importedSprites);
+					importedSprites++;
+				}
+				progressFill.style.transform = "scaleX(" + (importedSprites / spriteCount) + ")";
+				progressText.textContent = "IMPORTED " + importedSprites + " OF " + spriteCount + " SPRITES";
+				if (importedSprites < spriteCount) {
+					window.setTimeout(importNextBatch, 0);
+					return;
+				}
+				changeSprite(0);
+				drawSpriteSheet(sheet, settings);
+				status.textContent = "";
+				window.setTimeout(function() {
+					progress.hidden = true;
+					prompt.parentNode.classList.remove("is-importing");
+					prompt.isImporting = false;
+				}, 700);
+				URL.revokeObjectURL(imageUrl);
+			}
+
+			window.setTimeout(importNextBatch, 0);
+		};
+		image.onerror = function() {
+			status.textContent = "The image could not be read.";
+			status.classList.add("is-error");
+			prompt.isImporting = false;
+			URL.revokeObjectURL(imageUrl);
+		};
+		image.src = imageUrl;
+	}
+
+	function showSpriteSheet() {
+		var settings = spriteSheetSettings();
+		source.innerHTML = '<div class="sprite-sheet-dialog-content"><div class="sprite-sheet-import"><div class="sprite-sheet-import-prompt">DRAG AND DROP EXTERNAL SPRITE SHEET HERE</div><div class="sprite-sheet-import-status"></div><div class="sprite-sheet-import-progress" hidden><div class="sprite-sheet-import-progress-fill"></div><div class="sprite-sheet-import-progress-text"></div></div></div><canvas class="sprite-sheet-canvas"></canvas></div>';
+		openDialog("Sprite sheet", false);
+
+		var sheetDialog = source.querySelector(".sprite-sheet-dialog-content");
+		var sheet = source.querySelector("canvas");
+		var dropZone = source.querySelector(".sprite-sheet-import");
+		var prompt = source.querySelector(".sprite-sheet-import-prompt");
+		var status = source.querySelector(".sprite-sheet-import-status");
+		var progress = source.querySelector(".sprite-sheet-import-progress");
+		var progressFill = source.querySelector(".sprite-sheet-import-progress-fill");
+		var progressText = source.querySelector(".sprite-sheet-import-progress-text");
+		drawSpriteSheet(sheet, settings);
+
+		["dragenter", "dragover"].forEach(function(eventName) {
+			sheetDialog.addEventListener(eventName, function(event) {
+				event.preventDefault();
+				dropZone.classList.add("is-dragging");
+			});
+		});
+		["dragleave", "drop"].forEach(function(eventName) {
+			sheetDialog.addEventListener(eventName, function(event) {
+				event.preventDefault();
+				dropZone.classList.remove("is-dragging");
+			});
+		});
+		sheetDialog.addEventListener("drop", function(event) {
+			importSpriteSheet(event.dataTransfer.files[0], settings, sheet, prompt, status, progress, progressFill, progressText);
+		});
 
 		sheet.addEventListener("click", function(event) {
 			var bounds = sheet.getBoundingClientRect();
 			var pixelX = (event.clientX - bounds.left) * sheet.width / bounds.width;
 			var pixelY = (event.clientY - bounds.top) * sheet.height / bounds.height;
-			var column = Math.floor(pixelX / (settings.width * scale));
-			var row = Math.floor(pixelY / (settings.height * scale));
+			var column = Math.floor(pixelX / (settings.width * 2));
+			var row = Math.floor(pixelY / (settings.height * 2));
 			var selectedSprite = row * settings.columns + column;
 			if (selectedSprite >= 0 && selectedSprite < 256) {
 				changeSprite(selectedSprite - spriteNum);
