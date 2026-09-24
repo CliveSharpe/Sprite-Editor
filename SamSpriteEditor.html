@@ -664,17 +664,19 @@ border-color:#FFFFFF;
 body {
 	margin: 0;
 	min-width: 320px;
-	background:
+	background-color: var(--page);
+	background-image:
 		radial-gradient(circle at 12% 0%, #263560 0, transparent 31rem),
-		radial-gradient(circle at 88% 10%, #38275d 0, transparent 28rem),
-		var(--page);
+		radial-gradient(circle at 88% 10%, #38275d 0, transparent 28rem);
+	background-repeat: no-repeat;
+	background-size: 100% 100vh;
 	color: var(--text);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 #modern-app {
 	width: min(1576px, calc(100% - 32px));
-	margin: 24px auto 48px;
+	margin: max(24px, calc(env(safe-area-inset-top) + 16px)) auto 48px;
 	zoom: .9;
 }
 
@@ -741,6 +743,15 @@ body {
 .canvas-controls { position: absolute; z-index: 2; top: 45px; right: 15px; width: 300px; display: grid; gap: 16px; }
 .canvas-side-section { padding: 15px; border: 1px solid var(--line); border-radius: 12px; background: rgba(8, 13, 25, .35); }
 .canvas-side-section h2 { margin-bottom: 12px; }
+.canvas-tab-panel { display: grid; grid-template-rows: auto 1fr; padding: 0; overflow: hidden; }
+.canvas-tab-list { display: grid; grid-template-columns: repeat(2, 1fr); }
+#modern-app .canvas-tab { height: 34px !important; border: 0 !important; border-radius: 0; background: #10182b; color: var(--muted); font-size: .7rem !important; text-transform: uppercase; }
+#modern-app .canvas-tab + .canvas-tab { border-left: 1px solid var(--line) !important; }
+#modern-app .canvas-tab.is-active { border: 0 !important; border-radius: 0; background: rgba(8, 13, 25, .35); color: var(--text); box-shadow: none; }
+.canvas-tab-pane { display: block; grid-row: 2; grid-column: 1; padding: 15px; visibility: hidden; pointer-events: none; }
+.canvas-tab-pane[hidden] { display: block; }
+.canvas-tab-pane.is-active { visibility: visible; pointer-events: auto; }
+.canvas-tab-pane h2 { margin-bottom: 12px; }
 .sprite-navigation { display: flex; align-items: center; gap: 8px; }
 .pixel-stage .sprite-navigation { position: absolute; z-index: 2; left: 720px; bottom: 24px; }
 .sprite-number, #IMG_NUM { position: static !important; width: auto !important; height: auto !important; border: 0 !important; background: transparent !important; color: var(--accent-bright); font: 700 .75rem ui-monospace, SFMono-Regular, Consolas, monospace; }
@@ -767,20 +778,20 @@ body {
 	to { border-color: #000000; }
 }
 .palette-label { left: 20px; top: 420px; }
-.gradient-palette-label { position: absolute; z-index: 1; left: 20px; top: 537px; display: flex; align-items: center; gap: 3px; width: 160px; color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
-.gradient-palette-label select { width: 94px; padding: 1px 2px; border: 1px solid #3b4b70; border-radius: 3px; color: var(--text); background: #10182b; font: inherit; }
+.gradient-palette-label { position: absolute; z-index: 1; left: 20px; top: 542px; width: 160px; color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.gradient-palette-label select { position: absolute; top: 70px; left: 0; width: 160px; padding: 3px 4px; border: 1px solid #3b4b70; border-radius: 3px; color: var(--text); background: #10182b; font: inherit; }
 .palette-frame { position: absolute; z-index: 0; border: 1px solid #3b4b70; border-radius: 9px; background: rgba(8, 13, 25, .35); pointer-events: none; }
 .full-palette-frame { left: 11px; top: 45px; width: 178px; height: 358px; }
-.active-palette-frame { left: 11px; top: 410px; width: 178px; height: 108px; }
-.gradient-palette-frame { left: 11px; top: 527px; width: 178px; height: 116px; }
-#gradient-palette { position: absolute; z-index: 2; left: 20px; top: 558px; display: grid; grid-template-columns: repeat(8, 20px); gap: 0; }
+.active-palette-frame { left: 11px; top: 410px; width: 178px; height: 115px; }
+.gradient-palette-frame { left: 11px; top: 532px; width: 178px; height: 156px; }
+#gradient-palette { position: absolute; z-index: 2; left: 20px; top: 563px; display: grid; grid-template-columns: repeat(8, 20px); gap: 0; }
 .gradient-swatch { box-sizing: content-box; width: 18px; height: 18px; border: 1px solid #111827; background: #0a1020; cursor: pointer; }
 .gradient-swatch.is-selected { outline: 0; }
 .gradient-swatch.is-last { box-shadow: inset 0 0 0 1px var(--accent-bright); }
 .gradient-swatch.is-after-last { background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, .35) 0 2px, rgba(8, 13, 25, .75) 2px 4px); cursor: not-allowed; }
 .palette-actions { position: absolute; z-index: 2; display: flex; justify-content: center; gap: 5px; width: 160px; }
 .sprite-palette-actions { left: 20px; top: 483px; }
-.gradient-palette-actions { left: 20px; top: 602px; }
+.gradient-palette-actions { left: 20px; top: 646px; }
 .palette-actions button { min-height: 0; padding: 2px 6px; border: 1px solid #3b4b70; border-radius: 3px; color: var(--text); background: #18233b; font-size: .58rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
 .palette-actions button:hover { border-color: var(--accent-bright); background: #243556; }
 .canvas-frame { position: absolute; z-index: 0; left: 201px; top: 45px; width: 658px; height: 761px; border: 1px solid #3b4b70; border-radius: 9px; background: rgba(8, 13, 25, .2); pointer-events: none; }
@@ -801,6 +812,18 @@ body {
 .export-dialog.project-dialog .export-dialog-card { width: min(460px, 100%); }
 .export-dialog.project-dialog .export-dialog-body { padding: 16px; }
 .export-dialog.project-dialog .export-dialog-body #DATA { min-height: 0; height: auto !important; }
+.export-dialog.automation-dialog .export-dialog-card { width: min(540px, 100%); }
+.export-dialog.automation-dialog .export-dialog-title { color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.automation-dialog-content { display: grid; grid-template-columns: 192px 270px; justify-content: center; gap: 16px; align-items: start; }
+.automation-settings { width: 270px; display: grid; gap: 12px; }
+.automation-controls { display: grid; gap: 7px; }
+.automation-transform-row { display: grid; grid-template-columns: minmax(78px, 1fr) 32px 52px 32px; gap: 6px; align-items: center; }
+#modern-app .automation-transform-row button { width: 100% !important; }
+.automation-transform-row code { color: var(--accent-bright); font: 700 .75rem ui-monospace, SFMono-Regular, Consolas, monospace; text-align: center; }
+.automation-preview { display: grid; justify-items: center; gap: 8px; padding: 16px; border: 1px solid #3b4b70; border-radius: 9px; background: #0a1020; }
+.automation-preview canvas { width: 192px; height: 192px; border: 1px solid #485987; background: #080d19; image-rendering: pixelated; }
+.automation-preview-status { color: var(--muted); font: 700 .72rem ui-monospace, SFMono-Regular, Consolas, monospace; text-transform: uppercase; }
+.automation-preview-note { margin: 0; color: var(--muted); font-size: .72rem; text-align: center; }
 .export-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
 .export-dialog-title { margin: 0; color: var(--text); font-size: .95rem; }
 .export-dialog-header.help-header { justify-content: center; padding: 20px 18px 16px; text-align: center; }
@@ -845,6 +868,7 @@ body {
 .help-section.editing { border: 1px solid #8ec8eb; color: #abdafa; }
 .help-section.transforming { border: 1px solid #bda8ef; color: #cfbdf8; }
 .help-section.animation { border: 1px solid #91d5aa; color: #b4e7c5; }
+.help-section.automation { border: 1px solid #e9b583; color: #f6c89f; }
 .help-section.exporting { border: 1px solid #e8c66d; color: #f1d985; }
 .help-section.shortcuts { border: 1px solid #e7a9bb; color: #f1b8c8; }
 .export-dialog-footer { position: relative; display: flex; justify-content: flex-end; gap: 8px; padding: 14px 18px; border-top: 1px solid var(--line); }
@@ -863,7 +887,7 @@ body {
 .button-grid.compact.size-tools { grid-template-columns: repeat(2, 100px); justify-content: center; }
 .size-tools #SPRITESHEET { grid-column: span 2; }
 .button-grid .wide { grid-column: span 2; }
-#modern-app button {
+#modern-app button, .shape-style-menu button {
 	position: static !important;
 	width: auto !important;
 	height: 30px !important;
@@ -879,8 +903,9 @@ body {
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), inset 0 -2px 0 rgba(7, 11, 24, .5), 0 1px 2px rgba(0, 0, 0, .28);
 	transition: filter .15s, border-color .15s, transform .15s;
 }
-#modern-app button:hover { filter: brightness(1.14); border-color: var(--accent-bright) !important; }
-#modern-app button:active { transform: translateY(1px); }
+#modern-app button:hover, .shape-style-menu button:hover { filter: brightness(1.14); border-color: var(--accent-bright) !important; }
+#modern-app button:active, .shape-style-menu button:active { transform: translateY(1px); }
+#modern-app button:disabled { cursor: not-allowed; filter: grayscale(1); opacity: .42; }
 .primary-action button { background: var(--accent) !important; border-color: var(--accent-bright) !important; }
 .preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .preview-grid canvas, #ANIM1, #ANIM2, #ANIM3 { position: static !important; width: 100% !important; height: auto !important; border: 1px solid #344268; border-radius: 6px; background: #080d19; image-rendering: pixelated; cursor: pointer; }
@@ -894,32 +919,36 @@ body {
 #modern-app .animation-style button { font-family: "Arial Black", Arial, sans-serif !important; font-size: 1.1rem !important; }
 #modern-app .transform-tools button { font-family: "Arial Black", Arial, sans-serif !important; font-size: 1.1rem !important; }
 .direction-icon { display: block; width: 1.15em; height: 1.15em; margin: auto; fill: currentColor; }
-#modern-app #FILL, #modern-app #CIRCLEMODE, #modern-app #SQUAREMODE, #modern-app #SPRAYMODE { position: relative !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; padding-right: 20px !important; }
-#FILL::after, #CIRCLEMODE::after, #SQUAREMODE::after, #SPRAYMODE::after { content: "▾"; position: absolute; right: 5px; bottom: 3px; color: var(--accent-bright); font-size: .7rem; }
+#modern-app #FILL, #modern-app #CIRCLEMODE, #modern-app #SQUAREMODE, #modern-app #SPRAYMODE { position: relative !important; top: auto !important; right: auto !important; bottom: auto !important; left: auto !important; padding-right: 30px !important; }
+#FILL::after, #CIRCLEMODE::after, #SQUAREMODE::after, #SPRAYMODE::after { content: "▾"; position: absolute; top: 50%; right: 8px; color: var(--accent-bright); font-size: .75rem; transform: translateY(-50%); }
 .shape-style-menu { position: fixed; z-index: 10; display: grid; gap: 4px; min-width: 92px; padding: 5px; border: 1px solid #4b5e91; border-radius: 7px; background: #18213a; box-shadow: 0 8px 24px rgba(0, 0, 0, .4); }
 .shape-style-menu[hidden] { display: none; }
 .shape-style-menu button { position: static !important; width: auto !important; height: 26px !important; padding: 0 8px !important; text-align: left; }
-#modern-app .shape-style-menu button.is-selected { background: var(--accent) !important; border-color: var(--accent-bright) !important; }
+.shape-style-menu button.is-selected { background: var(--accent) !important; border-color: var(--accent-bright) !important; }
 .gradient-fill-guide { position: fixed; z-index: 9; display: none; height: 2px; background: #ffffff; box-shadow: 0 0 0 1px #111827, 0 0 6px var(--accent-bright); pointer-events: none; transform-origin: left center; }
 .transform-controls { display: grid; gap: 7px; margin-bottom: 12px; }
 .transform-row { display: grid; grid-template-columns: minmax(78px, 1fr) 32px 52px 32px; gap: 6px; align-items: center; }
 .transform-row button { width: 100% !important; }
 .transform-row code { color: var(--accent-bright); font: 700 .75rem ui-monospace, SFMono-Regular, Consolas, monospace; text-align: center; }
+#modern-app .automation-button { width: 100% !important; height: 30px !important; margin: 0 0 12px; }
 #DEG, #SCALEPERC, #SCALEXPERC, #SCALEYPERC { position: static !important; width: auto !important; height: auto !important; color: var(--accent-bright) !important; background: transparent !important; border: 0 !important; }
 #ANIMSPEED { display: none !important; }
 #modern-app input { max-width: 100%; margin: 8px 4px 0 0; padding: 6px 8px; border: 1px solid #3b4b70; border-radius: 5px; color: var(--text); background: #10182b; }
+#modern-app select { max-width: 100%; padding: 6px 8px; border: 1px solid #3b4b70; border-radius: 5px; color: var(--text); background: #10182b; }
 
 @media (max-width: 1080px) {
 	.sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
-	#modern-app { width: min(100% - 20px, 560px); margin-top: 10px; }
+	#modern-app { width: min(100% - 20px, 560px); margin-top: max(10px, calc(env(safe-area-inset-top) + 10px)); }
 	.editor-header { padding: 14px; }
 	.brand-mark { display: none; }
 	.workspace-panel { padding: 10px; overflow-x: auto; }
 	.editor-contact { display: none; }
 	.pixel-stage { transform-origin: top left; }
 	.sidebar { grid-template-columns: 1fr; }
+	.automation-dialog-content { grid-template-columns: 1fr; }
+	.automation-preview { grid-row: auto; }
 }
 
 </style>
@@ -1038,6 +1067,7 @@ var drawMode = POINT;
 var fillMode = 0;
 var circleFilled = false;
 var squareFilled = true;
+var squareStyle = "solid";
 
 var speed = 8;
 var frame1 = 7;
@@ -1287,6 +1317,9 @@ var PAL =	 ["rgb(0,0,0)","rgb(0,0,73)","rgb(73,0,0)","rgb(73,0,73)",
 //The set of colour indexes that reflect the current palette
 var palIndex= [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 var palCopy= [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+var hasSpriteCopy = false;
+var hasPaletteCopy = false;
+var spriteCopySize = null;
 var gradientPalette = ["","","","","","","","","","","","","","","",""];
 var selectedGradientIndex = 0;
 var gradientLastIndex = 15;
@@ -30878,7 +30911,7 @@ function copyGradientToPalette()
 
 	function setFillMode(event)
 	{
-		if (event.offsetX >= event.currentTarget.clientWidth - 18 && event.offsetY >= event.currentTarget.clientHeight - 18)
+		if (event.offsetX >= event.currentTarget.clientWidth - 30)
 		{
 			event.stopPropagation();
 			showFillStyleMenu(event.currentTarget);
@@ -30895,7 +30928,7 @@ function copyGradientToPalette()
 
 	function setSprayMode(event)
 	{
-		if (event.offsetX >= event.currentTarget.clientWidth - 18 && event.offsetY >= event.currentTarget.clientHeight - 18)
+		if (event.offsetX >= event.currentTarget.clientWidth - 30)
 		{
 			event.stopPropagation();
 			showSprayStyleMenu(event.currentTarget);
@@ -31133,12 +31166,19 @@ function drawCircle(endX, endY, endShape)
 function drawSquare(endX, endY, endShape)
 {
 	var halfSize = Math.max(Math.abs(endX - anchorX), Math.abs(endY - anchorY));
+	var gradientColourCount = Math.max(1, getCurrentGradientFillCount());
 	for (var i = 0; i < IMG_WIDTH * IMG_HEIGHT; i++) currentSpriteData[i] = currentSpriteLine[i];
 	for (var y = -halfSize; y <= halfSize; y++)
 	{
 		for (var x = -halfSize; x <= halfSize; x++)
 		{
-			if (squareFilled || Math.abs(x) == halfSize || Math.abs(y) == halfSize)
+			if (squareStyle == "gradient")
+			{
+				var gradientRatio = halfSize ? Math.max(Math.abs(x), Math.abs(y)) / halfSize : 0;
+				var gradientIndex = Math.min(gradientColourCount - 1, Math.round(gradientRatio * (gradientColourCount - 1)));
+				paintToolPixel(anchorX + x, anchorY + y, gradientIndex);
+			}
+			else if (squareFilled || Math.abs(x) == halfSize || Math.abs(y) == halfSize)
 			{
 				paintToolPixel(anchorX + x, anchorY + y);
 			}
@@ -31458,6 +31498,14 @@ function toggleGrid()
 }
 
 //copies the current sprite to the copy buffer
+function updatePasteControls()
+{
+	var pasteButton = document.getElementById("PASTE");
+	var pastePaletteButton = document.getElementById("PASTEPAL");
+	if (pasteButton) pasteButton.disabled = !hasSpriteCopy || spriteCopySize != size;
+	if (pastePaletteButton) pastePaletteButton.disabled = !hasPaletteCopy;
+}
+
 function copy()
 {
 	document.getElementById("COPY").blur();
@@ -31465,7 +31513,6 @@ function copy()
 	anchored = 0;
 	var i = 0;
 
-	copyPal();
 	if (size == EIGHT8 )
 	{
 		for (i=0;i<8*8;i++)
@@ -31503,18 +31550,20 @@ function copy()
 			}
 		}
 	}
+	hasSpriteCopy = true;
+	spriteCopySize = size;
+	updatePasteControls();
 }
 
 //pastes the current copy buffer to the image
 function paste()
 {
+	if (!hasSpriteCopy || spriteCopySize != size) return;
 
 	document.getElementById("PASTE").blur();
 
 	anchored = 0;
 	var i = 0;
-
-	pastePal();
 
 	if (size == EIGHT8 )
 	{
@@ -31568,11 +31617,14 @@ function copyPal()
 	{
 		palCopy[i] = palIndex[i];
 	}	
+	hasPaletteCopy = true;
+	updatePasteControls();
 }
 
 //pastes the palette to the current sprite - each sprite has an independant palette
 function pastePal()
 {
+	if (!hasPaletteCopy) return;
 
 	document.getElementById("PASTEPAL").blur();
 
@@ -32095,7 +32147,7 @@ function setDrawMode(mode)
 
 function setShapeMode(mode, event)
 {
-	if (event.offsetX >= event.currentTarget.clientWidth - 18 && event.offsetY >= event.currentTarget.clientHeight - 18)
+	if (event.offsetX >= event.currentTarget.clientWidth - 30)
 	{
 		event.stopPropagation();
 		showShapeStyleMenu(mode, event.currentTarget);
@@ -32445,6 +32497,8 @@ function changeSize( newSize )
 		default:
 			break;
 	}
+
+	updatePasteControls();
 
 }
 
@@ -35058,12 +35112,12 @@ function saveFile()
 	
 	
 	
-    var gradientData = JSON.stringify({
-    	palette: gradientPalette,
-    	lastIndex: gradientLastIndex,
-    	selectedIndex: selectedGradientIndex,
-    	fillCounts: gradientFillCounts
-    });
+	var gradientData = JSON.stringify({
+		palette: gradientPalette,
+		lastIndex: gradientLastIndex,
+		selectedIndex: selectedGradientIndex,
+		fillCounts: gradientFillCounts
+	});
     var a = document.createElement("a");
     var file = new Blob([data, PROJECT_GRADIENT_MARKER, gradientData], {type: 'octet/stream'});
     a.href = URL.createObjectURL(file);
@@ -35208,9 +35262,9 @@ function loadFile(file)
 <button id="FLIPX" type="button" onclick="flipX()" title="Flip horizontally" aria-label="Flip horizontally"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 2 12l6 7v-4h8v4l6-7-6-7v4H8z"/></svg></button>
 <button id="FLIPY" type="button" onclick="flipY()" title="Flip vertically" aria-label="Flip vertically"><svg class="direction-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 7-6 7 6h-4v8h4l-7 6-7-6h4V8z"/></svg></button>
 <button id="COPY" type="button" onclick="copy()">COPY</button>
-<button id="PASTE" type="button" onclick="paste()">PASTE</button>
+<button id="PASTE" type="button" onclick="paste()" disabled>PASTE</button>
 <button id="COPYPAL" type="button" onclick="copyPal()">COPY PAL</button>
-<button id="PASTEPAL" type="button" onclick="pastePal()">PASTE PAL</button>
+<button id="PASTEPAL" type="button" onclick="pastePal()" disabled>PASTE PAL</button>
 <button id="DELETE" type="button" onclick="deleteSprite()">WASH IMG</button>
 <button id="CLEAR" type="button" onclick="clearSprite()">CLEAR IMG</button>
 <button id="NEXT" type="button" onclick="changeSprite(1)" title="Next sprite" aria-label="Next sprite">&#9654;</button>
@@ -35257,7 +35311,7 @@ function loadFile(file)
 	app.id = "modern-app";
 	app.innerHTML =
 		'<header class="editor-header"><div class="brand"><div class="brand-mark"></div><canvas id="se-logo" role="img" aria-label="SAM Coupe Sprite Editor"></canvas></div></header>' +
-		'<div class="editor-layout"><section class="workspace-panel panel"><div class="workspace-top"><h2 class="section-title">Workspace</h2><div class="sprite-navigation"></div></div><div class="workspace-content"><div class="workspace-main"><div class="canvas-and-controls"><div class="pixel-stage"><span class="palette-frame full-palette-frame"></span>				<span class="palette-label">Sprite Palette</span><span class="palette-frame active-palette-frame"></span><div class="palette-actions sprite-palette-actions"><button id="palette-to-gradient" type="button" title="Copy the Sprite Palette colours to the Gradient Palette">To Gradient</button></div><label class="gradient-palette-label">Gradients <select id="gradient-choice"><option value="gradient1">Gradient 1</option><option value="gradient2">Gradient 2</option><option value="gradient3">Gradient 3</option><option value="gradient4">Gradient 4</option><option value="gradient5">Gradient 5</option><option value="gradient6">Gradient 6</option><option value="gradient7">Gradient 7</option><option value="gradient8">Gradient 8</option></select></label><span class="palette-frame gradient-palette-frame"></span><div id="gradient-palette"></div><div class="palette-actions gradient-palette-actions"><button id="gradient-to-palette" type="button" title="Copy the gradient colours to the Sprite Palette">To Palette</button><button id="reverse-gradient" type="button" title="Reverse the enabled gradient colours">Reverse</button></div>		<span class="canvas-frame"></span><span class="canvas-footer-divider"></span><div class="canvas-controls"><section class="canvas-side-section"><h2>Sprite size</h2><div class="button-grid compact size-tools"></div></section><section class="canvas-side-section"><h2>Transform</h2><div class="transform-controls"><div class="transform-row rotate-controls"></div><div class="transform-row scale-controls"></div><div class="transform-row scale-x-controls"></div><div class="transform-row scale-y-controls"></div></div><div class="button-grid compact transform-tools"></div></section><section class="canvas-side-section"><h2>Tools</h2><div class="button-grid tool-tools"></div></section></div></div></div><div class="status-bar"></div></div>' +
+		'<div class="editor-layout"><section class="workspace-panel panel"><div class="workspace-top"><h2 class="section-title">Workspace</h2><div class="sprite-navigation"></div></div><div class="workspace-content"><div class="workspace-main"><div class="canvas-and-controls"><div class="pixel-stage"><span class="palette-frame full-palette-frame"></span>				<span class="palette-label">Sprite Palette</span><span class="palette-frame active-palette-frame"></span><div class="palette-actions sprite-palette-actions"><button id="palette-to-gradient" type="button" title="Copy the Sprite Palette colours to the Gradient Palette">To Gradient</button></div><label class="gradient-palette-label">Gradients <select id="gradient-choice"><option value="gradient1">Gradient 1</option><option value="gradient2">Gradient 2</option><option value="gradient3">Gradient 3</option><option value="gradient4">Gradient 4</option><option value="gradient5">Gradient 5</option><option value="gradient6">Gradient 6</option><option value="gradient7">Gradient 7</option><option value="gradient8">Gradient 8</option></select></label><span class="palette-frame gradient-palette-frame"></span><div id="gradient-palette"></div><div class="palette-actions gradient-palette-actions">		<button id="gradient-to-palette" type="button" title="Copy the gradient colours to the Sprite Palette">To Palette</button><button id="reverse-gradient" type="button" title="Reverse the enabled gradient colours">Reverse</button></div>		<span class="canvas-frame"></span><span class="canvas-footer-divider"></span><div class="canvas-controls"><section class="canvas-side-section"><h2>Sprite size</h2><div class="button-grid compact size-tools"></div></section><section class="canvas-side-section canvas-tab-panel"><div class="canvas-tab-list" role="tablist" aria-label="Editor controls"><button type="button" class="canvas-tab is-active" data-canvas-tab="transform" role="tab" aria-selected="true">Transform</button><button type="button" class="canvas-tab" data-canvas-tab="tools" role="tab" aria-selected="false">Tools</button></div><div class="canvas-tab-pane is-active" data-canvas-pane="transform" role="tabpanel"><h2>Transform</h2><div class="transform-controls"><div class="transform-row rotate-controls"></div><div class="transform-row scale-controls"></div><div class="transform-row scale-x-controls"></div><div class="transform-row scale-y-controls"></div></div><button type="button" class="automation-button">Automation</button><div class="button-grid compact transform-tools"></div></div><div class="canvas-tab-pane" data-canvas-pane="tools" role="tabpanel" hidden><h2>Tools</h2><div class="button-grid tool-tools"></div></div></section></div></div></div><div class="status-bar"></div></div>' +
 		'<aside class="sidebar"><section class="project-panel panel"><h2>Project</h2><div class="button-grid project-actions"></div></section><section class="animation-panel panel"><h2>Animation</h2><div class="preview-grid"></div><div class="utility-row animation-tools"></div><div class="button-grid compact animation-style" style="margin-top:7px"></div></section><section class="export-panel panel"><h2>Export</h2><div class="button-grid compact export-tools"></div></section></aside></div></section></div><div class="dialog-source"></div><div class="export-dialog" hidden><div class="export-dialog-card" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><header class="export-dialog-header"><div class="export-dialog-title" id="dialog-title"></div></header><div class="export-dialog-body"></div><footer class="export-dialog-footer"><label class="dialog-image-type" hidden>Image type<select><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option><option value="image/bmp">BMP</option></select></label><button type="button" class="dialog-save">Save file</button><button type="button" class="dialog-close">Close</button></footer></div></div>';
 	document.body.appendChild(app);
 	var contact = document.createElement("div");
@@ -35481,6 +35535,29 @@ function loadFile(file)
 	});
 	moveAll(["SIZE8", "SIZE16", "SIZE24", "SIZE32", "SPRITESHEET"], ".size-tools");
 	moveAll(["GRID", "UNDO", "FILL", "POINTMODE", "LINEMODE", "CIRCLEMODE", "SQUAREMODE", "SPRAYMODE", "COPY", "PASTE", "COPYPAL", "PASTEPAL", "CLEAR", "DELETE"], ".tool-tools");
+	var canvasTabList = app.querySelector(".canvas-tab-list");
+	var toolsCanvasTab = app.querySelector('[data-canvas-tab="tools"]');
+	canvasTabList.insertBefore(toolsCanvasTab, canvasTabList.firstChild);
+	var canvasTabs = app.querySelectorAll(".canvas-tab");
+	var canvasTabPanes = app.querySelectorAll(".canvas-tab-pane");
+	function selectCanvasTab(tabName) {
+		for (var tabIndex = 0; tabIndex < canvasTabs.length; tabIndex++) {
+			var isSelected = canvasTabs[tabIndex].getAttribute("data-canvas-tab") == tabName;
+			canvasTabs[tabIndex].classList.toggle("is-active", isSelected);
+			canvasTabs[tabIndex].setAttribute("aria-selected", isSelected ? "true" : "false");
+		}
+		for (var paneIndex = 0; paneIndex < canvasTabPanes.length; paneIndex++) {
+			var isSelected = canvasTabPanes[paneIndex].getAttribute("data-canvas-pane") == tabName;
+			canvasTabPanes[paneIndex].classList.toggle("is-active", isSelected);
+			canvasTabPanes[paneIndex].hidden = !isSelected;
+		}
+	}
+	for (var canvasTabIndex = 0; canvasTabIndex < canvasTabs.length; canvasTabIndex++) {
+		canvasTabs[canvasTabIndex].addEventListener("click", function() {
+			selectCanvasTab(this.getAttribute("data-canvas-tab"));
+		});
+	}
+	selectCanvasTab("tools");
 	moveAll(["ROTATE", "MINUSDEG", "DEG", "PLUSDEG"], ".rotate-controls");
 	moveAll(["SCALE", "SCALEDOWN", "SCALEPERC", "SCALEUP"], ".scale-controls");
 	moveAll(["SCALEX", "SCALEDOWNX", "SCALEXPERC", "SCALEUPX"], ".scale-x-controls");
@@ -35497,7 +35574,7 @@ function loadFile(file)
 		'<section class="help-section acknowledgements"><h3>Acknowledgements</h3><p>Thanks to the original C64 artists for 24*21 sprite images, and Chris&nbsp;<svg class="battlezone-tank" role="img" aria-label="green retro tank" viewBox="0 0 48 28" shape-rendering="crispEdges"><path fill="#173a2c" d="M2 18h38l5 4v5H2z"/><path fill="#61ed92" d="M5 19h33l3 3v2H5z"/><path fill="#173a2c" d="M8 21h7v3H8zm10 0h7v3h-7zm10 0h7v3h-7z"/><path fill="#3aa766" d="M8 14h28l5 5H5z"/><path fill="#61ed92" d="M12 12h21l3 5H9z"/><path fill="#173a2c" d="M19 6h11l5 6H15z"/><path fill="#61ed92" d="M20 7h9l3 4H18z"/><path fill="#b4ffd0" d="M22 8h5v2h-5z"/><path fill="#61ed92" d="M29 8h17v3H29z"/><path fill="#b4ffd0" d="M42 8h4v3h-4z"/></svg>&nbsp;Pile for telling me the world didn\'t need another Sprite Editor back in 2016.</p></section>' +
 		'<section class="help-section overview"><h3>Getting started</h3><ul><li>Select 8x8, 16x16, 24x21, or 32x32 to choose a gallery containing 256 independently editable sprites.</li><li>Use the previous and next buttons below the canvas to move through the active gallery.</li><li>Read the centred sprite number below the canvas to identify the sprite currently being edited.</li><li>Open Sprite Sheet to see every sprite in the active size and click a tile to load it.</li><li>Drop a PNG or BMP image into the Sprite Sheet dialog to import complete tiles in row order, up to 256 sprites.</li><li>Imported image colours are matched to the nearest Full Palette colour and remapped to each sprite&apos;s available sixteen colour slots.</li><li>Use Project Save to store all gallery pixels, per-sprite palettes, Gradient Palette settings, and gradient fill counts in one project file.</li><li>Use Project Load to restore a previously saved project file.</li></ul></section>' +
 		'<section class="help-section editing"><h3>Palettes and drawing</h3><ul><li>Click a Sprite Palette swatch to select the indexed colour used by solid drawing tools.</li><li>Click a Full Palette swatch to replace the Sprite Palette or Gradient Palette swatch selected most recently.</li><li>Click a Gradient Palette swatch before choosing a Full Palette colour to edit that gradient slot.</li><li>Double-click a Gradient Palette swatch to set its final enabled colour and hatch all later slots.</li><li>Select Gradient 1 through Gradient 8 to load an editable dark-to-light-to-dark colour ramp.</li><li>Use To Palette to copy the enabled gradient colours into the leading Sprite Palette entries for the current sprite.</li><li>Use To Gradient to copy all sixteen current Sprite Palette colours into the Gradient Palette.</li><li>Use Reverse to reverse the enabled Gradient Palette colours.</li><li>Click canvas cells in Point mode to draw individual pixels with the selected Sprite Palette colour.</li><li>Hold the left mouse button and move over canvas cells in Point mode to draw continuously.</li><li>Use Grid to show or hide the pixel-cell borders.</li></ul></section>' +
-		'<section class="help-section transforming"><h3>Tools and transforms</h3><ul><li>Click Line once to anchor its first endpoint and click again to commit the previewed line.</li><li>Click Circle or Square once to anchor its centre and click again to commit the previewed shape.</li><li>Click the lower-right arrow on Circle or Square to choose Filled or Outline rendering.</li><li>Click the lower-right arrow on Spray to choose Solid or Gradient spraying.</li><li>Hold the left mouse button and move over canvas cells in Spray mode to spray continuously.</li><li>Gradient Spray uses the leading palette colours established by To Palette and increases colour outward from the spray centre.</li><li>Click the lower-right arrow on Fill to choose Solid, Linear, or Radial filling.</li><li>Solid Fill changes one connected region to the selected Sprite Palette colour.</li><li>Linear and Radial Fill use the first click to select and anchor a connected region.</li><li>Move the pointer to preview the linear angle or radial radius and click again to commit the gradient fill.</li><li>Use Undo to restore the most recent image change.</li><li>Use Clear to set the current sprite to colour index zero and use Wash Image to fill every pixel with the selected colour.</li><li>Use the transform arrows to shift pixels by one position or flip the sprite horizontally or vertically.</li><li>Set Rotate, Scale, X Scale, or Y Scale with their adjacent controls before applying the matching transform.</li></ul></section>' +
+		'<section class="help-section transforming"><h3>Tools and transforms</h3><ul><li>Click Line once to anchor its first endpoint and click again to commit the previewed line.</li><li>Click Circle or Square once to anchor its centre and click again to commit the previewed shape.</li><li>Click the lower-right arrow on Circle to choose Filled or Outline rendering.</li><li>Click the lower-right arrow on Square to choose Solid, Outline, or Gradient rendering.</li><li>Gradient Square uses the leading palette colours established by To Palette and progresses from its centre toward its edge.</li><li>Click the lower-right arrow on Spray to choose Solid or Gradient spraying.</li><li>Hold the left mouse button and move over canvas cells in Spray mode to spray continuously.</li><li>Gradient Spray uses the leading palette colours established by To Palette and increases colour outward from the spray centre.</li><li>Click the lower-right arrow on Fill to choose Solid, Linear, or Radial filling.</li><li>Solid Fill changes one connected region to the selected Sprite Palette colour.</li><li>Linear and Radial Fill use the first click to select and anchor a connected region.</li><li>Move the pointer to preview the linear angle or radial radius and click again to commit the gradient fill.</li><li>Use Undo to restore the most recent image change.</li><li>Use Clear to set the current sprite to colour index zero and use Wash Image to fill every pixel with the selected colour.</li><li>Use the transform arrows to shift pixels by one position or flip the sprite horizontally or vertically.</li><li>Set Rotate, Scale, X Scale, or Y Scale with their adjacent controls before applying the matching transform.</li></ul></section>' +
 		'<section class="help-section animation"><h3>Animation</h3><ul><li>Click the first animation preview to select the sequence start sprite.</li><li>Click the second animation preview to select the sequence end sprite.</li><li>Use the third preview to view the currently selected animation sequence.</li><li>Use the play and stop control to start or stop animation playback.</li><li>Use the paired triangle controls to change animation speed.</li><li>Use the direction buttons to choose forward, reverse, or ping-pong playback.</li><li>Animation settings are stored independently for each sprite size.</li></ul></section>' +
 		'<section class="help-section exporting"><h3>Exporting</h3><ul><li>Use Java 8, Java 16, Java 24, or Java 32 to export indexed pixel and palette arrays for the corresponding gallery.</li><li>Use MODE4, Z80 ASM, MODE4+, or 6502 ASM to export retro-platform assembler formats.</li><li>Use Java RGB to export RGBA pixel data for the active gallery.</li><li>Use Bitmap or Alpha to generate a one-times or two-times sprite sheet image.</li><li>Alpha bitmap output treats palette index zero as transparent.</li><li>Save text exports as text files from the export dialog.</li><li>Save generated images as PNG, JPEG, WebP, or BMP from the export dialog.</li></ul></section>' +
 		'<section class="help-section shortcuts"><h3>Keyboard shortcuts</h3><ul><li>Press 1 for Point, 2 for Line, 3 for Circle, 4 for Square, and 5 for Spray.</li><li>Press F to arm the selected Fill style and G to show or hide the grid.</li><li>Press C to copy, P to paste, U to undo, and Delete to clear the current sprite.</li><li>Press R to rotate and S to apply the configured Scale transform.</li><li>Press X to flip horizontally and Y to flip vertically.</li><li>Press the arrow keys to move the canvas cursor.</li><li>Press Space to draw, fill, or anchor and commit a line.</li><li>Press Enter to select the palette colour beneath the canvas cursor.</li><li>Shortcuts are disabled while entering text in a dialog or control.</li></ul></section></div>';
@@ -35520,10 +35597,43 @@ function loadFile(file)
 	var shapeStyleMenu = document.createElement("div");
 	shapeStyleMenu.className = "shape-style-menu";
 	shapeStyleMenu.hidden = true;
-	app.appendChild(shapeStyleMenu);
+	document.body.appendChild(shapeStyleMenu);
+
+	function positionShapeStyleMenu(trigger) {
+		var viewportPadding = 8;
+		var bounds = trigger.getBoundingClientRect();
+		shapeStyleMenu.hidden = false;
+		var menuBounds = shapeStyleMenu.getBoundingClientRect();
+		var left = Math.max(viewportPadding, Math.min(bounds.right - menuBounds.width, window.innerWidth - menuBounds.width - viewportPadding));
+		var top = bounds.bottom + 4;
+		if (top + menuBounds.height > window.innerHeight - viewportPadding) {
+			top = Math.max(viewportPadding, bounds.top - menuBounds.height - 4);
+		}
+		shapeStyleMenu.style.left = left + "px";
+		shapeStyleMenu.style.top = top + "px";
+	}
 
 	window.showShapeStyleMenu = function(mode, trigger) {
 		var isCircle = mode === CIRCLE;
+		if (!isCircle) {
+			shapeStyleMenu.innerHTML = '<button type="button">Solid</button><button type="button">Outline</button><button type="button">Gradient</button>';
+			var squareChoices = shapeStyleMenu.querySelectorAll("button");
+			var squareStyles = ["solid", "outline", "gradient"];
+			for (var squareChoiceIndex = 0; squareChoiceIndex < squareChoices.length; squareChoiceIndex++) {
+				(function(choice, style) {
+					choice.classList.toggle("is-selected", squareStyle == style);
+					choice.addEventListener("click", function(event) {
+						event.stopPropagation();
+						squareStyle = style;
+						squareFilled = style != "outline";
+						setDrawMode(SQUARE);
+						shapeStyleMenu.hidden = true;
+					});
+				}(squareChoices[squareChoiceIndex], squareStyles[squareChoiceIndex]));
+			}
+			positionShapeStyleMenu(trigger);
+			return;
+		}
 		var isFilled = isCircle ? circleFilled : squareFilled;
 		shapeStyleMenu.innerHTML = '<button type="button">Filled</button><button type="button">Outline</button>';
 		var choices = shapeStyleMenu.querySelectorAll("button");
@@ -35543,10 +35653,7 @@ function loadFile(file)
 			setDrawMode(mode);
 			shapeStyleMenu.hidden = true;
 		});
-		var bounds = trigger.getBoundingClientRect();
-		shapeStyleMenu.style.left = Math.min(bounds.right - 92, window.innerWidth - 100) + "px";
-		shapeStyleMenu.style.top = (bounds.bottom + 4) + "px";
-		shapeStyleMenu.hidden = false;
+		positionShapeStyleMenu(trigger);
 	};
 	window.showFillStyleMenu = function(trigger) {
 		shapeStyleMenu.innerHTML = '<button type="button">Solid</button><button type="button">Linear</button><button type="button">Radial</button>';
@@ -35562,10 +35669,7 @@ function loadFile(file)
 				});
 			}(choices[i], styles[i]));
 		}
-		var bounds = trigger.getBoundingClientRect();
-		shapeStyleMenu.style.left = Math.min(bounds.right - 92, window.innerWidth - 100) + "px";
-		shapeStyleMenu.style.top = (bounds.bottom + 4) + "px";
-		shapeStyleMenu.hidden = false;
+		positionShapeStyleMenu(trigger);
 	};
 	window.showSprayStyleMenu = function(trigger) {
 		shapeStyleMenu.innerHTML = '<button type="button">Solid</button><button type="button">Gradient</button>';
@@ -35581,16 +35685,17 @@ function loadFile(file)
 				});
 			}(choices[i], styles[i]));
 		}
-		var bounds = trigger.getBoundingClientRect();
-		shapeStyleMenu.style.left = Math.min(bounds.right - 92, window.innerWidth - 100) + "px";
-		shapeStyleMenu.style.top = (bounds.bottom + 4) + "px";
-		shapeStyleMenu.hidden = false;
+		positionShapeStyleMenu(trigger);
 	};
 	document.addEventListener("click", function() {
 		shapeStyleMenu.hidden = true;
 	});
 
 	function closeDialog() {
+		if (dialog.cleanup) {
+			dialog.cleanup();
+			dialog.cleanup = null;
+		}
 		sourceHome.appendChild(source);
 		dialog.hidden = true;
 	}
@@ -35601,6 +35706,7 @@ function loadFile(file)
 		var projectActions = dialogFooter.querySelectorAll(".project-dialog-action");
 		for (var actionIndex = 0; actionIndex < projectActions.length; actionIndex++) projectActions[actionIndex].remove();
 		dialog.classList.toggle("project-dialog", isProject);
+		dialog.classList.toggle("automation-dialog", title === "Automation");
 		dialogTitle.parentNode.classList.toggle("help-header", isHelp);
 		dialogContact.hidden = !isHelp;
 		if (isHelp) {
@@ -35615,6 +35721,244 @@ function loadFile(file)
 		dialogBody.appendChild(source);
 		dialogImageType.hidden = !canSave || !source.querySelector("canvas");
 		dialog.hidden = false;
+	}
+
+	function automationSettings() {
+		switch (size) {
+			case EIGHT8: return { width: 8, height: 8, gallery: gallery8, palette: pal8 };
+			case SIXTEEN16: return { width: 16, height: 16, gallery: gallery16, palette: pal16 };
+			case TWENTYFOUR21: return { width: 24, height: 21, gallery: gallery24, palette: pal24 };
+			case THIRTYTWO32: return { width: 32, height: 32, gallery: gallery32, palette: pal32 };
+		}
+	}
+
+	function transformAutomationFrame(sourcePixels, settings, rotationX, rotationY, rotationZ, scaleXAmount, scaleYAmount) {
+		var result = new Array(settings.width * settings.height);
+		var factorX = 1 / (scaleXAmount / 100);
+		var factorY = 1 / (scaleYAmount / 100);
+		var radiansX = (6.28 / 360) * rotationX;
+		var radiansY = (6.28 / 360) * rotationY;
+		var radiansZ = (6.28 / 360) * rotationZ;
+		var cosineX = Math.cos(radiansX);
+		var sineX = Math.sin(radiansX);
+		var cosineY = Math.cos(radiansY);
+		var sineY = Math.sin(radiansY);
+		var cosineZ = Math.cos(radiansZ);
+		var sineZ = Math.sin(radiansZ);
+		var originX = settings.width / 2;
+		var originY = settings.height / 2;
+		var cameraDistance = Math.max(settings.width, settings.height) * 3;
+		for (var y = 0; y < settings.height; y++) {
+			for (var x = 0; x < settings.width; x++) {
+				var rayX = x - originX;
+				var rayY = y - originY;
+				var pointX = 0;
+				var pointY = 0;
+				var pointZ = -cameraDistance;
+				var directionX = rayX;
+				var directionY = rayY;
+				var directionZ = cameraDistance;
+
+				var inversePointY = (cosineX * pointY) + (sineX * pointZ);
+				var inversePointZ = (-sineX * pointY) + (cosineX * pointZ);
+				var inverseDirectionY = (cosineX * directionY) + (sineX * directionZ);
+				var inverseDirectionZ = (-sineX * directionY) + (cosineX * directionZ);
+				pointY = inversePointY;
+				pointZ = inversePointZ;
+				directionY = inverseDirectionY;
+				directionZ = inverseDirectionZ;
+
+				var inversePointX = (cosineY * pointX) - (sineY * pointZ);
+				inversePointZ = (sineY * pointX) + (cosineY * pointZ);
+				var inverseDirectionX = (cosineY * directionX) - (sineY * directionZ);
+				inverseDirectionZ = (sineY * directionX) + (cosineY * directionZ);
+				pointX = inversePointX;
+				pointZ = inversePointZ;
+				directionX = inverseDirectionX;
+				directionZ = inverseDirectionZ;
+
+				inversePointX = (cosineZ * pointX) + (sineZ * pointY);
+				inversePointY = (-sineZ * pointX) + (cosineZ * pointY);
+				inverseDirectionX = (cosineZ * directionX) + (sineZ * directionY);
+				inverseDirectionY = (-sineZ * directionX) + (cosineZ * directionY);
+				pointX = inversePointX;
+				pointY = inversePointY;
+				directionX = inverseDirectionX;
+				directionY = inverseDirectionY;
+
+				var intersection = directionZ === 0 ? -1 : -pointZ / directionZ;
+				var sourceX = (pointX + (directionX * intersection)) * factorX + originX;
+				var sourceY = (pointY + (directionY * intersection)) * factorY + originY;
+				sourceX = Math.round(sourceX);
+				sourceY = Math.round(sourceY);
+				result[(y * settings.width) + x] = sourceX >= 0 && sourceX < settings.width && sourceY >= 0 && sourceY < settings.height
+					? sourcePixels[(sourceY * settings.width) + sourceX]
+					: 0;
+			}
+		}
+		return result;
+	}
+
+	function drawAutomationPreview(canvas, pixels, settings, palette) {
+		canvas.width = settings.width;
+		canvas.height = settings.height;
+		var context = canvas.getContext("2d");
+		context.imageSmoothingEnabled = false;
+		for (var y = 0; y < settings.height; y++) {
+			for (var x = 0; x < settings.width; x++) {
+				var colourIndex = palette[pixels[(y * settings.width) + x]] * 3;
+				context.fillStyle = "rgb(" + RGB[colourIndex] + "," + RGB[colourIndex + 1] + "," + RGB[colourIndex + 2] + ")";
+				context.fillRect(x, y, 1, 1);
+			}
+		}
+	}
+
+	function showAutomationDialog() {
+		var settings = automationSettings();
+		var availableFrames = 256 - spriteNum;
+		if (availableFrames < 2) {
+			source.innerHTML = '<p class="automation-preview-note">Automation needs at least one unused sprite after the selected sprite.</p>';
+			openDialog("Automation", false);
+			dialogClose.textContent = "Close";
+			return;
+		}
+
+		var sourceSprite = spriteNum;
+		var sourcePixels = currentSpriteData.slice(0, settings.width * settings.height);
+		var sourcePalette = palIndex.slice(0, 16);
+		var defaultFrames = Math.min(8, availableFrames);
+		source.innerHTML =
+			'<div class="automation-dialog-content">' +
+				'<div class="automation-preview"><canvas class="automation-preview-canvas"></canvas><div class="automation-preview-status"></div><div class="utility-row automation-preview-tools"><button type="button" class="automation-play" title="Play or stop automation preview" aria-label="Play or stop automation preview">&#9654; / &#9632;</button></div></div>' +
+				'<div class="automation-settings"><div class="automation-controls">' +
+					'<div class="automation-transform-row"><button type="button" class="automation-reset" data-control="rotationX">Rotate X</button><button type="button" class="automation-adjust" data-control="rotationX" data-step="-5">-</button><code class="automation-value" data-control="rotationX">000&deg;</code><button type="button" class="automation-adjust" data-control="rotationX" data-step="5">+</button></div>' +
+					'<div class="automation-transform-row"><button type="button" class="automation-reset" data-control="rotationY">Rotate Y</button><button type="button" class="automation-adjust" data-control="rotationY" data-step="-5">-</button><code class="automation-value" data-control="rotationY">000&deg;</code><button type="button" class="automation-adjust" data-control="rotationY" data-step="5">+</button></div>' +
+					'<div class="automation-transform-row"><button type="button" class="automation-reset" data-control="rotationZ">Rotate Z</button><button type="button" class="automation-adjust" data-control="rotationZ" data-step="-5">-</button><code class="automation-value" data-control="rotationZ">000&deg;</code><button type="button" class="automation-adjust" data-control="rotationZ" data-step="5">+</button></div>' +
+					'<div class="automation-transform-row"><button type="button" class="automation-reset" data-control="scaleX">X Scale</button><button type="button" class="automation-adjust" data-control="scaleX" data-step="-10">-</button><code class="automation-value" data-control="scaleX">100%</code><button type="button" class="automation-adjust" data-control="scaleX" data-step="10">+</button></div>' +
+					'<div class="automation-transform-row"><button type="button" class="automation-reset" data-control="scaleY">Y Scale</button><button type="button" class="automation-adjust" data-control="scaleY" data-step="-10">-</button><code class="automation-value" data-control="scaleY">100%</code><button type="button" class="automation-adjust" data-control="scaleY" data-step="10">+</button></div>' +
+					'<div class="automation-transform-row"><button type="button" class="automation-reset" data-control="frames">Frames</button><button type="button" class="automation-adjust" data-control="frames" data-step="-1">-</button><code class="automation-value" data-control="frames">' + String(defaultFrames).padStart(3, "0") + '</code><button type="button" class="automation-adjust" data-control="frames" data-step="1">+</button></div>' +
+				'</div>' +
+				'</div>' +
+			'</div>';
+		openDialog("Automation", false);
+		dialogClose.textContent = "Cancel";
+
+		var previewCanvas = source.querySelector(".automation-preview-canvas");
+		var previewStatus = source.querySelector(".automation-preview-status");
+		var playButton = source.querySelector(".automation-play");
+		var previewFrames = [];
+		var previewIndex = 0;
+		var previewTimer = null;
+		var values = { rotationX: 0, rotationY: 0, rotationZ: 0, scaleX: 100, scaleY: 100, frames: defaultFrames };
+
+		function updateControlValues() {
+			var valueDisplays = source.querySelectorAll(".automation-value");
+			for (var displayIndex = 0; displayIndex < valueDisplays.length; displayIndex++) {
+				var control = valueDisplays[displayIndex].getAttribute("data-control");
+				var value = values[control];
+				if (control.indexOf("rotation") === 0) {
+					valueDisplays[displayIndex].innerHTML = (value < 0 ? "-" : "") + String(Math.abs(value)).padStart(3, "0") + "&deg;";
+				} else if (control === "frames") {
+					valueDisplays[displayIndex].textContent = String(value).padStart(3, "0");
+				} else {
+					valueDisplays[displayIndex].textContent = String(value).padStart(3, "0") + "%";
+				}
+			}
+		}
+
+		function stopPreview() {
+			if (previewTimer !== null) {
+				window.clearInterval(previewTimer);
+				previewTimer = null;
+			}
+		}
+
+		function updatePreview() {
+			var frameCount = values.frames;
+			previewFrames = [];
+			for (var frame = 0; frame < frameCount; frame++) {
+				var progress = frame / (frameCount - 1);
+				previewFrames.push(transformAutomationFrame(
+					sourcePixels,
+					settings,
+					values.rotationX * progress,
+					values.rotationY * progress,
+					values.rotationZ * progress,
+					100 + ((values.scaleX - 100) * progress),
+					100 + ((values.scaleY - 100) * progress)
+				));
+			}
+			previewIndex = 0;
+			drawAutomationPreview(previewCanvas, previewFrames[previewIndex], settings, sourcePalette);
+			previewStatus.textContent = "Frame 1 of " + frameCount;
+		}
+
+		function playPreviewFrame() {
+			if (!previewFrames.length) return;
+			previewIndex = (previewIndex + 1) % previewFrames.length;
+			drawAutomationPreview(previewCanvas, previewFrames[previewIndex], settings, sourcePalette);
+			previewStatus.textContent = "Frame " + (previewIndex + 1) + " of " + previewFrames.length;
+		}
+
+		var adjustButtons = source.querySelectorAll(".automation-adjust");
+		for (var adjustIndex = 0; adjustIndex < adjustButtons.length; adjustIndex++) {
+			adjustButtons[adjustIndex].addEventListener("click", function() {
+				var control = this.getAttribute("data-control");
+				var step = Number(this.getAttribute("data-step"));
+				var minimum = control.indexOf("rotation") === 0 ? -360 : control === "frames" ? 2 : 10;
+				var maximum = control.indexOf("rotation") === 0 ? 360 : control === "frames" ? availableFrames : 200;
+				values[control] = Math.max(minimum, Math.min(maximum, values[control] + step));
+				stopPreview();
+				updateControlValues();
+				updatePreview();
+			});
+		}
+		var resetButtons = source.querySelectorAll(".automation-reset");
+		for (var resetIndex = 0; resetIndex < resetButtons.length; resetIndex++) {
+			resetButtons[resetIndex].addEventListener("click", function() {
+				var control = this.getAttribute("data-control");
+				values[control] = control.indexOf("rotation") === 0 ? 0 : 100;
+				if (control === "frames") values[control] = defaultFrames;
+				stopPreview();
+				updateControlValues();
+				updatePreview();
+			});
+		}
+		playButton.addEventListener("click", function() {
+			if (previewTimer !== null) {
+				stopPreview();
+				return;
+			}
+			previewTimer = window.setInterval(playPreviewFrame, 160);
+		});
+		updateControlValues();
+		updatePreview();
+		dialog.cleanup = function() {
+			stopPreview();
+		};
+
+		var acceptButton = document.createElement("button");
+		acceptButton.type = "button";
+		acceptButton.className = "project-dialog-action dialog-save";
+		acceptButton.textContent = "Accept";
+		acceptButton.addEventListener("click", function() {
+			for (var frame = 0; frame < previewFrames.length; frame++) {
+				var targetSprite = sourceSprite + frame;
+				var pixelOffset = targetSprite * settings.width * settings.height;
+				var paletteOffset = targetSprite * 16;
+				for (var pixel = 0; pixel < previewFrames[frame].length; pixel++) settings.gallery[pixelOffset + pixel] = previewFrames[frame][pixel];
+				for (var paletteEntry = 0; paletteEntry < 16; paletteEntry++) settings.palette[paletteOffset + paletteEntry] = sourcePalette[paletteEntry];
+				delete gradientFillCounts[size + ":" + targetSprite];
+			}
+			changeSprite(sourceSprite - spriteNum);
+			var selectedSprite = spriteNum;
+			anim1Click();
+			spriteNum = sourceSprite + previewFrames.length - 1;
+			anim2Click();
+			spriteNum = selectedSprite;
+			closeDialog();
+		});
+		dialogFooter.appendChild(acceptButton);
 	}
 
 	function canvasToBmp(canvas) {
@@ -35679,6 +36023,9 @@ function loadFile(file)
 	var originalHelp = help;
 	help = function() {
 		originalHelp();
+		var transformHelp = source.querySelector(".help-section.transforming");
+		transformHelp.querySelector("ul").insertAdjacentHTML("beforeend", "<li>Automated transforms are also available.</li>");
+		transformHelp.insertAdjacentHTML("afterend", '<section class="help-section automation"><h3>Automation</h3><ul><li>Generate a perspective-corrected rotation around the X, Y, and Z axes from the selected sprite.</li><li>Set independent X and Y scaling and select the number of generated frames.</li><li>Use the preview Play / Stop control to review the sequence before changing the gallery.</li><li>Select Accept to write the selected sprite and following gallery slots as the generated animation.</li></ul></section>');
 		openDialog("Help", false);
 	};
 
@@ -35814,7 +36161,6 @@ function loadFile(file)
 			importCanvas.height = image.height;
 			var importContext = importCanvas.getContext("2d", { willReadFrequently: true });
 			importContext.drawImage(image, 0, 0);
-			var pixels = importContext.getImageData(0, 0, image.width, image.height).data;
 			var spritePixels = settings.width * settings.height;
 			var importedSprites = 0;
 			progress.hidden = false;
@@ -35827,20 +36173,21 @@ function loadFile(file)
 			function importSprite(sprite) {
 				var spriteColumn = sprite % columns;
 				var spriteRow = Math.floor(sprite / columns);
+				var sourceTile = importContext.getImageData(spriteColumn * settings.width, spriteRow * settings.height, settings.width, settings.height).data;
 				var fullPalettePixels = [];
 				var counts = {};
 				var hasTransparentPixels = false;
 
 				for (var y = 0; y < settings.height; y++) {
 					for (var x = 0; x < settings.width; x++) {
-						var sourcePixel = (((spriteRow * settings.height + y) * image.width) + (spriteColumn * settings.width + x)) * 4;
+						var sourcePixel = ((y * settings.width) + x) * 4;
 						var pixelIndex = (y * settings.width) + x;
-						if (pixels[sourcePixel + 3] < 128) {
+						if (sourceTile[sourcePixel + 3] < 128) {
 							fullPalettePixels[pixelIndex] = 0;
 							hasTransparentPixels = true;
 							continue;
 						}
-						var fullPaletteIndex = closestFullPaletteIndex(pixels[sourcePixel], pixels[sourcePixel + 1], pixels[sourcePixel + 2]);
+						var fullPaletteIndex = closestFullPaletteIndex(sourceTile[sourcePixel], sourceTile[sourcePixel + 1], sourceTile[sourcePixel + 2]);
 						fullPalettePixels[pixelIndex] = fullPaletteIndex;
 						counts[fullPaletteIndex] = (counts[fullPaletteIndex] || 0) + 1;
 					}
@@ -35854,7 +36201,7 @@ function loadFile(file)
 					if (spritePalette.length < 16 && spritePalette.indexOf(index) == -1) spritePalette.push(index);
 				});
 				if (!spritePalette.length) spritePalette.push(0);
-				while (spritePalette.length < 16) spritePalette.push(spritePalette[0]);
+				while (spritePalette.length < 16) spritePalette.push(0);
 
 				for (var paletteSlot = 0; paletteSlot < 16; paletteSlot++) {
 					settings.palette[(sprite * 16) + paletteSlot] = spritePalette[paletteSlot];
@@ -35945,6 +36292,7 @@ function loadFile(file)
 	}
 
 	document.getElementById("SPRITESHEET").addEventListener("click", showSpriteSheet);
+	app.querySelector(".automation-button").addEventListener("click", showAutomationDialog);
 }());
 </script>
 
